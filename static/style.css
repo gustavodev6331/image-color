@@ -1,0 +1,131 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #252525;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 25px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.header p {
+    color: #777;
+    font-size: 16px;
+}
+
+.upload-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 45px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.upload-section form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    background-color: #252525;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+.palette-section h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.color-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.color-preview {
+    height: 140px;
+}
+
+.color-info {
+    padding: 15px;
+}
+
+.color-hex {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.color-quantity {
+    color: #888;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 35px 15px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .upload-section form {
+        flex-direction: column;
+    }
+}
+
+.color-hex {
+    background: none;
+    color: #252525;
+    border: none;
+    padding: 0;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.color-hex:hover {
+    background: none;
+    color: #666;
+}

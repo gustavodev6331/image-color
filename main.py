@@ -1,8 +1,9 @@
 from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
+from flask import Flask, render_template, request
 
-
+app = Flask(__name__)
 
 image = Image.open('Screenshot 2026-11-10 at 7.22.31 PM.png')
 image = image.convert("RGB")
@@ -36,4 +37,10 @@ for color, quantity in zip(int_center, sorted_count):
 
     print(f"{hex_color}: {quantity:,}pixels")
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
+
+if __name__ == '__main__':
+    app.run(debug=True)

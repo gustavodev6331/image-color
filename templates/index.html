@@ -4,12 +4,50 @@
     <meta charset="UTF-8">
     <title>Image Color Extractor</title>
 </head>
+
 <body>
-    <h1>Image Color Extractor</h1>
-    <p>Discover the most common colors in your image.</p>
-    <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" accept="image/*" required>
-    <button type="submit">Extract Colors</button>
-    </form>
+    <main class="container">
+
+        <header class="header">
+            <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+            <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+            <h1>Image Color Extractor</h1>
+            <p>Discover the most common colors in any image.</p>
+        </header>
+
+        <section class="upload-section">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">Extract Colors</button>
+            </form>
+        </section>
+
+        {% if colors %}
+            <section class="palette-section">
+                <h2>Your Color Palette</h2>
+
+                <div class="color-grid">
+                    {% for color in colors %}
+                        <div class="color-card">
+                            <div class="color-preview"
+                                 style="background-color: {{ color.hex }};">
+                            </div>
+
+                            <div class="color-info">
+                                <button class="color-hex" type="button" data-hex="{{ color.hex }}">
+                                    {{ color.hex }}
+                                </button>
+                                <p class="color-quantity">
+                                    {{ "{:,}".format(color.quantity) }} pixels
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+    </main>
 </body>
+
 </html>

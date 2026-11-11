@@ -1,17 +1,12 @@
-import flask
+from PIL import Image
+import numpy as np
 
 
+image = Image.open('Screenshot 2026-11-10 at 7.22.31 PM.png')
+image = image.convert("RGB")
+image_array = np.array(image)
 
-# 1. O usuário acessa uma página web.
-# 2. Faz upload de uma imagem.
-# 3. O Flask recebe essa imagem.
-# 4. O Python analisa os pixels utilizando NumPy e processamento de imagem.
-# 5. O sistema identifica as 10 cores mais frequentes.
-# 6. O resultado aparece na página, com as cores e seus respectivos códigos HEX.
+# print(image_array[0][0][:3])
+# print(image_array.shape)
 
-
-
-app = flask.Flask(__name__)
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+print(np.unique(image_array))

@@ -21,6 +21,9 @@
                 <button type="submit">Extract Colors</button>
             </form>
         </section>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
 
         {% if colors %}
             <section class="palette-section">

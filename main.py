@@ -23,42 +23,57 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     color_palette = []
+    error = None
 
     if request.method == 'POST':
-        image = request.files['image']
-        image = Image.open(image)
-        image = image.convert("RGB")
+        uploaded_file = request.files.get("image")
 
-        image_array = np.array(image)
-        pixels = image_array.reshape(-1,3)
+        if not uploaded_file or uploaded_file.filename == "":
+            error = "Please select an image."
 
-        kmeans = KMeans(n_clusters=10, random_state=42)
-        kmeans.fit(pixels)
+        else:
+            try:
+                image = Image.open(uploaded_file)
+                image = image.convert("RGB")
 
-        centers = kmeans.cluster_centers_
+            except (UnidentifiedImageError, OSError, ValueError):
+                error = "Invalid image file. Please upload a valid image."
 
-        labels = kmeans.labels_
-        count = np.bincount(labels)
+            else:
+                image = request.files['image']
+                image = Image.open(image)
+                image = image.convert("RGB")
 
-        sorter_indices = count.argsort()[::-1]
-        sorted_center = centers[sorter_indices]
-        sorted_count = count[sorter_indices]
+                image_array = np.array(image)
+                pixels = image_array.reshape(-1,3)
 
-        int_center = sorted_center.astype(int)
+                kmeans = KMeans(n_clusters=10, random_state=42)
+                kmeans.fit(pixels)
 
-        color_palette=[]
+                centers = kmeans.cluster_centers_
 
-        for color, quantity in zip(int_center, sorted_count):
-            hex_color = "#{:02X}{:02X}{:02X}".format(*color)
-            color_palette.append({
-                "hex": hex_color,
-                "quantity": int(quantity),
-            })
-            print(f"{hex_color}: {quantity:,}pixels")
+                labels = kmeans.labels_
+                count = np.bincount(labels)
+
+                sorter_indices = count.argsort()[::-1]
+                sorted_center = centers[sorter_indices]
+                sorted_count = count[sorter_indices]
+
+                int_center = sorted_center.astype(int)
+
+                color_palette=[]
+
+                for color, quantity in zip(int_center, sorted_count):
+                    hex_color = "#{:02X}{:02X}{:02X}".format(*color)
+                    color_palette.append({
+                        "hex": hex_color,
+                        "quantity": int(quantity),
+                    })
+                    print(f"{hex_color}: {quantity:,}pixels")
 
 
 
-    return render_template('index.html', colors=color_palette)
+    return render_template('index.html', colors=color_palette, error=error)
 
 
 if __name__ == '__main__':

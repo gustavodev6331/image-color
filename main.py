@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import numpy as np
 from sklearn.cluster import KMeans
 from flask import Flask, render_template, request
@@ -22,6 +22,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    color_palette = []
 
     if request.method == 'POST':
         image = request.files['image']
@@ -45,13 +46,19 @@ def home():
 
         int_center = sorted_center.astype(int)
 
+        color_palette=[]
+
         for color, quantity in zip(int_center, sorted_count):
             hex_color = "#{:02X}{:02X}{:02X}".format(*color)
+            color_palette.append({
+                "hex": hex_color,
+                "quantity": int(quantity),
+            })
             print(f"{hex_color}: {quantity:,}pixels")
 
 
 
-    return render_template('index.html')
+    return render_template('index.html', colors=color_palette)
 
 
 if __name__ == '__main__':
